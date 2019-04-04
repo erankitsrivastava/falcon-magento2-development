@@ -15,6 +15,8 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 /**
+ * GetUrlRewrite
+ *
  * @package Deity\UrlRewrite\Model
  */
 class GetUrlRewrite implements GetUrlRewriteInterface
@@ -40,7 +42,7 @@ class GetUrlRewrite implements GetUrlRewriteInterface
     private $commandsPerEntityType;
 
     /**
-     * @var CanonicalUrlProviderInterface[]
+     * @var array
      */
     private $canonicalUrlProviders;
 
@@ -51,6 +53,7 @@ class GetUrlRewrite implements GetUrlRewriteInterface
      * @param UrlRewriteInterfaceFactory $urlRewriteFactory
      * @param StoreManagerInterface $storeManager
      * @param array $commandsPerEntityType
+     * @param array $canonicalUrlProviders
      * @throws LocalizedException
      */
     public function __construct(
@@ -91,10 +94,7 @@ class GetUrlRewrite implements GetUrlRewriteInterface
     }
 
     /**
-     * @param string $url
-     * @return UrlRewriteInterface
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * @inheritdoc
      */
     public function execute(string $url): UrlRewriteInterface
     {
@@ -113,10 +113,8 @@ class GetUrlRewrite implements GetUrlRewriteInterface
                 $this->canonicalUrlProviders[$urlModel->getEntityType()]->getCanonicalUrl($urlModel)
             );
         } else {
-            //Use base if entity type is not specified in canonicalUrlProviders di argument.
-            $urlData->setCanonicalUrl(
-                $this->canonicalUrlProviders[CanonicalUrlProviderInterface::BASE_KEY]->getCanonicalUrl($urlModel)
-            );
+            //Use default if entity type is not specified in canonicalUrlProviders di argument.
+            $urlData->setCanonicalUrl($this->canonicalUrlProviders['base']->getCanonicalUrl($urlModel));
         }
 
         if (isset($this->commandsPerEntityType[$urlModel->getEntityType()])) {
@@ -127,11 +125,13 @@ class GetUrlRewrite implements GetUrlRewriteInterface
     }
 
     /**
+     * Get url model
+     *
      * @param string $path
      * @return UrlRewrite
      * @throws NoSuchEntityException
      */
-    private function getUrlModel(string $path): UrlRewrite
+    private function getUrlModel(string $path)
     {
         $urlModel = $this->urlFinder->findOneByData(
             [

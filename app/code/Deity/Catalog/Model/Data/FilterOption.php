@@ -6,6 +6,11 @@ namespace Deity\Catalog\Model\Data;
 use Deity\CatalogApi\Api\Data\FilterOptionInterface;
 use Magento\Framework\Api\AbstractSimpleObject;
 
+/**
+ * Class FilterOption
+ *
+ * @package Deity\Catalog\Model\Data
+ */
 class FilterOption implements FilterOptionInterface
 {
 
@@ -25,20 +30,27 @@ class FilterOption implements FilterOptionInterface
     private $count;
 
     /**
+     * @var bool
+     */
+    private $isSelected;
+
+    /**
      * FilterOption constructor.
      * @param string $label
      * @param string $value
      * @param int $count
+     * @param bool $isSelected
      */
-    public function __construct(string $label, string $value, int $count)
+    public function __construct(string $label, string $value, int $count, bool $isSelected = false)
     {
         $this->label = $label;
+        $this->isSelected = $isSelected;
         $this->value = $value;
         $this->count = $count;
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getLabel(): string
     {
@@ -46,7 +58,7 @@ class FilterOption implements FilterOptionInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getValue(): string
     {
@@ -54,10 +66,18 @@ class FilterOption implements FilterOptionInterface
     }
 
     /**
-     * @return int
+     * @inheritdoc
      */
     public function getCount(): int
     {
         return $this->count;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIsSelected(): bool
+    {
+        return $this->isSelected;
     }
 }

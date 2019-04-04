@@ -1,5 +1,10 @@
 <?php
-declare(strict_types=1);
+/**
+ * Created by Ryan Copeland <ryan@ryancopeland.co.uk>.
+ * User: ryancopeland
+ * Date: 2019-01-05
+ * Time: 15:50
+ */
 
 namespace Deity\UrlRewrite\Model\UrlRewrite\CanonicalUrlProvider;
 
@@ -7,8 +12,14 @@ use Deity\UrlRewriteApi\Api\CanonicalUrlProviderInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
+/**
+ * Class ProductUrlProvider
+ *
+ * @package Deity\UrlRewrite\Model\UrlRewrite\CanonicalUrlProvider
+ */
 class ProductUrlProvider implements CanonicalUrlProviderInterface
 {
     /**
@@ -17,20 +28,28 @@ class ProductUrlProvider implements CanonicalUrlProviderInterface
     private $productRepository;
 
     /**
+     * @var UrlInterface
+     */
+    private $urlBuilder;
+
+    /**
      * ProductUrlProvider constructor.
+     *
      * @param ProductRepositoryInterface $productRepository
+     * @param UrlInterface $urlBuilder
      */
     public function __construct(
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        UrlInterface $urlBuilder
     ) {
+        $this->urlBuilder = $urlBuilder;
         $this->productRepository = $productRepository;
     }
 
     /**
-     * @param $urlModel UrlRewrite
-     * @return string
+     * @inheritdoc
      */
-    public function getCanonicalUrl(UrlRewrite $urlModel): string
+    public function getCanonicalUrl(UrlRewrite $urlModel)
     {
         try {
             /** @var Product $product */
@@ -39,6 +58,8 @@ class ProductUrlProvider implements CanonicalUrlProviderInterface
             return '';
         }
 
-        return $product->getUrlModel()->getUrl($product, ['_ignore_category' => true]);
+        $productUrl = $product->getUrlModel()->getUrl($product, ['_ignore_category' => true]);
+        $storeUrl = $this->urlBuilder->getBaseUrl();
+        return str_replace($storeUrl, '', $productUrl);
     }
 }

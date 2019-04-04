@@ -17,6 +17,7 @@ use Magento\Framework\Registry;
 
 /**
  * Class CategoryProductList
+ *
  * @package Deity\Catalog\Model
  */
 class CategoryProductList implements CategoryProductListInterface
@@ -88,10 +89,7 @@ class CategoryProductList implements CategoryProductListInterface
     }
 
     /**
-     * @param int $categoryId
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Deity\CatalogApi\Api\Data\ProductSearchResultsInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @inheritdoc
      */
     public function getList(
         int $categoryId,
@@ -115,7 +113,7 @@ class CategoryProductList implements CategoryProductListInterface
         $productSearchResult = $this->productSearchResultFactory->create();
 
         $productSearchResult->setFilters(
-            $this->filterProvider->getFilterList($this->catalogLayer)
+            $this->filterProvider->getFilterList($this->catalogLayer, $searchCriteria)
         );
         $productSearchResult->setItems($responseProducts);
 
@@ -125,6 +123,8 @@ class CategoryProductList implements CategoryProductListInterface
     }
 
     /**
+     * Get product collection
+     *
      * @return Collection
      */
     private function getProductCollection(): Collection

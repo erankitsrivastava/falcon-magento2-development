@@ -82,6 +82,7 @@ $category->setId(4)
     ->setAvailableSortBy('name')
     ->setDefaultSortBy('name')
     ->setIsActive(true)
+    ->setIsAnchor(false)
     ->setPosition(1)
     ->save();
 

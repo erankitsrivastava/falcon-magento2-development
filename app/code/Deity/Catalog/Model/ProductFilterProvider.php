@@ -10,9 +10,13 @@ use Deity\CatalogApi\Api\Data\FilterOptionInterfaceFactory;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
 use Magento\Catalog\Model\Layer\Filter\Item;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\State\InitException;
 
 /**
  * Class ProductFilterProvider
+ *
  * @package Deity\Catalog\Model
  */
 class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProviderInterface
@@ -34,6 +38,11 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
     private $filterOptionFactory;
 
     /**
+     * @var string[][]
+     */
+    private $filterValues = [];
+
+    /**
      * ProductFilterProvider constructor.
      * @param Layer\FilterList $filterList
      * @param FilterInterfaceFactory $filterFactory
@@ -50,22 +59,22 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
     }
 
     /**
-     * @param Layer $layer
-     * @return \Deity\CatalogApi\Api\Data\FilterInterface[]
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @inheritdoc
      */
-    public function getFilterList(Layer $layer): array
+    public function getFilterList(Layer $layer, ?SearchCriteriaInterface $searchCriteria): array
     {
         if (!$layer->getCurrentCategory()->getIsAnchor()) {
             //if category is not marked is_anchor, do not return filter data
             return [];
         }
+
+        $this->presetFilterValues($searchCriteria);
         
         /** @var AbstractFilter[] $magentoFilters */
         $magentoFilters = $this->filterList->getFilters($layer);
         $resultFilters = [];
         foreach ($magentoFilters as $magentoFilter) {
-            if (!$magentoFilter->getItemsCount()) {
+            if (!$magentoFilter->getItemsCount() && !$this->isFilterSelected($magentoFilter)) {
                 continue;
             }
             $filterInitData = [];
@@ -82,15 +91,19 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
             /** @var FilterInterface $filterObject */
             $filterObject = $this->filterFactory->create($filterInitData);
             $magentoOptions = $magentoFilter->getItems();
-
             /** @var Item $magentoOption */
             foreach ($magentoOptions as $magentoOption) {
                 /** @var FilterOptionInterface $filterOption */
                 $filterOption =$this->filterOptionFactory->create(
                     [
-                        'label' => (string)$magentoOption->getData('label'),
-                        'value' => $magentoOption->getValueString(),
-                        'count' => (int)$magentoOption->getData('count')
+                        FilterOptionInterface::LABEL => (string)$magentoOption->getData('label'),
+                        FilterOptionInterface::VALUE => $magentoOption->getValueString(),
+                        FilterOptionInterface::COUNT => (int)$magentoOption->getData('count'),
+                        FilterOptionInterface::IS_SELECTED =>
+                            $this->getIsSelectedFlagForFilterOption(
+                                $magentoFilter,
+                                (string)$magentoOption->getValueString()
+                            )
                     ]
                 );
                 $filterObject->addOption($filterOption);
@@ -99,5 +112,57 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
             $resultFilters[] = $filterObject;
         }
         return $resultFilters;
+    }
+
+    /**
+     * Check if filter option is selected
+     *
+     * @param AbstractFilter $magentoFilter
+     * @param string $getValueString
+     * @return bool
+     */
+    private function getIsSelectedFlagForFilterOption(AbstractFilter $magentoFilter, string $getValueString): bool
+    {
+        if (!$this->isFilterSelected($magentoFilter)) {
+            return false;
+        }
+
+        if (in_array($getValueString, $this->filterValues[$magentoFilter->getRequestVar()])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if filter values are selected
+     *
+     * @param AbstractFilter $magentoFilter
+     * @return bool
+     */
+    private function isFilterSelected(AbstractFilter $magentoFilter): bool
+    {
+        return isset($this->filterValues[$magentoFilter->getRequestVar()]);
+    }
+
+    /**
+     * Parse Filter Selected values
+     *
+     * @param SearchCriteriaInterface|null $searchCriteria
+     * @return $this
+     */
+    private function presetFilterValues(?SearchCriteriaInterface $searchCriteria)
+    {
+        if ($searchCriteria === null) {
+            return $this;
+        }
+
+        foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
+            foreach ($filterGroup->getFilters() as $filter) {
+                $this->filterValues[$filter->getField()][] = $filter->getValue();
+            }
+        }
+
+        return $this;
     }
 }
