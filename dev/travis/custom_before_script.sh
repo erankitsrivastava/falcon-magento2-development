@@ -14,7 +14,7 @@ case $TEST_SUITE in
         # create database and move db config into place
         mysql -uroot -e '
             SET @@global.sql_mode = NO_ENGINE_SUBSTITUTION;
-            CREATE DATABASE magento_functional_tests;
+            CREATE DATABASE magento_api_tests;
         '
         sed -e "s?127.0.0.1:80?${MAGENTO_HOST_NAME}?g" --in-place ./phpunit.xml
         mv config/install-config-mysql.travis.php.dist config/install-config-mysql.php
