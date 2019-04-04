@@ -45,17 +45,18 @@ cache:
     - $HOME/node_modules
     - $HOME/yarn.lock
 before_install:
+  - /bin/bash ./dev/travis/before_install.sh
   - /bin/bash ./dev/travis/custom_before_install.sh
-  - composer config --global http-basic.repo.magento.com "$MAGENTO_USERNAME" "$MAGENTO_PASSWORD"
 install: composer install --no-interaction --prefer-dist
 before_script:
-  /bin/bash ./dev/travis/custom_before_script.sh
+  - /bin/bash ./dev/travis/before_script.sh
+  - /bin/bash ./dev/travis/custom_before_script.sh
 script:
   # Set arguments for variants of phpunit based tests; '|| true' prevents failing script when leading test fails
   - test $TEST_SUITE = "functional" && TEST_FILTER='dev/tests/functional/testsuites/Magento/Mtf/TestSuite/InjectableTests.php' || true
 
   # The scripts for grunt/phpunit type tests
-  - if [ $TEST_SUITE == "functional" ]; then dev/tests/functional/vendor/phpunit/phpunit/phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
   - if [ $TEST_SUITE == "static" ]; then /bin/bash ./dev/travis/prepare_static_test.sh && phpunit -c dev/tests/$TEST_SUITE; fi
-  - if [ $TEST_SUITE != "functional" ] && [ $TEST_SUITE != "js" ] && [ $TEST_SUITE != "static" ]; then phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
+  - if [ $TEST_SUITE == "functional" ]; then dev/tests/functional/vendor/phpunit/phpunit/phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
+  - if [ $TEST_SUITE != "functional" ] && [ $TEST_SUITE != "js" ]; then phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
   - if [ $TEST_SUITE == "js" ]; then grunt $GRUNT_COMMAND; fi

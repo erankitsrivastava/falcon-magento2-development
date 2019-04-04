@@ -199,6 +199,5 @@ Magento/Framework/MessageQueue/Topology/Config/ExchangeConfigItem
 IntegrationConfig.php
 *Test.php
 setup/performance-toolkit/aggregate-report
-setup
-app/etc
-app/code/Deity
+Magento/Customer/Model/FileUploaderDataResolver.php
+Magento/Customer/Model/Customer/DataProvider.php
