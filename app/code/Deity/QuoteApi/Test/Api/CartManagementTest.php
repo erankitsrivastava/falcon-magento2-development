@@ -18,12 +18,12 @@ class CartManagementTest extends WebapiAbstract
     /**
      * Service constants
      */
-    const RESOURCE_PATH = '/V1/carts/mine/place-order';
+    private const RESOURCE_PATH = '/V1/falcon/carts/mine/place-order';
 
     /**
      * @var ObjectManagerInterface
      */
-    protected $objectManager;
+    private $objectManager;
 
     /**
      *  setup before every test run. Update app config

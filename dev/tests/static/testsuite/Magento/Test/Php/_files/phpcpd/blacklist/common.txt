@@ -205,6 +205,8 @@ Test/_files
 Magento/InventoryCatalogAdminUi/Controller/Adminhtml
 Magento/InventoryConfigurableProductIndexer/Indexer
 Magento/InventoryGroupedProductIndexer/Indexer
-setup
-app/etc
-app/code/Deity
+Magento/Customer/Model/FileUploaderDataResolver.php
+Magento/Customer/Model/Customer/DataProvider.php
+Magento/InventoryShippingAdminUi/Ui/DataProvider
+Magento/Elasticsearch6/Model/Client\
+app/code/Magento

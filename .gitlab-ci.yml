@@ -6,11 +6,13 @@ stages:
 packagist:
   stage: release
   before_script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+  - echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+  - sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+  - apt-get -o Acquire::Check-Valid-Until=false update
+  - 'which ssh-agent || ( apt-get install openssh-client git -y )'
   - eval $(ssh-agent -s)
-  - echo "$GIT_SSH_PRIV_KEY" | tr -d '\r' | ssh-add - > /dev/null
   - git config --global user.email "sergii@deity.io"
-  - git config --global user.name "Sergii Gzh"
+  - git config --global user.name "Sergii Gozhedrianov"
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   - ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -30,13 +32,36 @@ packagist:
       "   From working dir $CI_PROJECT_DIR\n    Out Image ${IMAGE_TAG}\n    Building tag $CI_BUILD_REF_NAME\n    --------\n\n\033[0m"
 
   script:
+  - echo "$GIT_SSH_PRIV_KEY" | tr -d '\r' | ssh-add - > /dev/null
   - git clone -b $BRANCH_NAME --single-branch git@github.com:deity-io/falcon-magento2-module.git
   - rm -fr falcon-magento2-module/src/*
   - cp -r app/code/Deity/ falcon-magento2-module/src/
   - cd falcon-magento2-module
-  - git add src
-  - git commit -m "$CI_COMMIT_MESSAGE"
-  - git push origin $BRANCH_NAME
+  - if [ `git status --porcelain | wc -l` -ne 0 ]; then
+    echo "sync changes to module repo";
+    git add src;
+    git commit -m "$CI_COMMIT_MESSAGE";
+    git push origin $BRANCH_NAME;
+    else
+    echo "nothing to release";
+    fi;
+  - cd ../
+  - ssh-add -D
+  - echo "$GIT_DEV_REPO" | tr -d '\r' | ssh-add - > /dev/null
+  - git clone -b develop-m2.2 --single-branch git@github.com:deity-io/falcon-magento2-development.git m22
+  - rm -fr m22/app/code/Deity
+  - cp -r app/code/Deity/ m22/app/code/
+  - cp dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt m22/dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
+  - cp dev/travis/config/static_php_common.txt m22/dev/travis/config/static_php_common.txt
+  - cd m22
+  - git config core.fileMode false
+  - if [ `git status --porcelain | wc -l` -ne 0 ]; then
+    echo "sync changes to m2.2 branch";
+    git add . ;
+    git commit -m "$CI_COMMIT_MESSAGE";
+    git push origin develop-m2.2;
+    else
+    echo "nothing to back sync";
+    fi;
   only:
-  - master
-  - develop
+    - develop

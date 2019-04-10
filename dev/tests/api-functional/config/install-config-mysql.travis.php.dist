@@ -10,7 +10,7 @@ return [
     'timezone'                     => 'America/Los_Angeles',
     'currency'                     => 'USD',
     'db-host'                      => '127.0.0.1',
-    'db-name'                      => 'magento_functional_tests',
+    'db-name'                      => 'magento_api_tests',
     'db-user'                      => 'root',
     'db-password'                  => '',
     'backend-frontname'            => 'backend',
@@ -26,5 +26,5 @@ return [
     /* PayPal has limitation for order number - 20 characters. 10 digits prefix + 8 digits number is good enough */
     'sales-order-increment-prefix' => time(),
     'session-save'                 => 'db',
-    'cleanup-database'             => true,
+    'cleanup-database'             => true
 ];
