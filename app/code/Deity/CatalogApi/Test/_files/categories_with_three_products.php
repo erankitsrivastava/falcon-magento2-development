@@ -1,7 +1,5 @@
 <?php
 
-require __DIR__ . '/filterable_attribute.php';
-
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
 
