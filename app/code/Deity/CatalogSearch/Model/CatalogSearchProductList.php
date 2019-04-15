@@ -7,8 +7,8 @@ use Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
 use Deity\CatalogApi\Api\Data\ProductSearchResultsInterfaceFactory;
 use Deity\CatalogApi\Api\ProductConvertInterface;
 use Deity\CatalogSearchApi\Api\ProductFilterProviderInterface;
-use Deity\CatalogSearchApi\Api\QueryCollectionServiceInterface;
 use Deity\CatalogSearchApi\Api\SearchInterface;
+use Deity\CatalogSearchApi\Model\QueryCollectionServiceInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\Resolver;
@@ -27,17 +27,17 @@ class CatalogSearchProductList implements SearchInterface
     /**
      * @var QueryCollectionServiceInterface
      */
-    protected $queryCollectionService;
+    private $queryCollectionService;
 
     /**
      * @var Config
      */
-    protected $catalogConfig;
+    private $catalogConfig;
 
     /**
      * @var Visibility
      */
-    protected $productVisibility;
+    private $productVisibility;
 
     /**
      * @var CollectionFactory
@@ -136,10 +136,11 @@ class CatalogSearchProductList implements SearchInterface
             ->addUrlRewrite()
             ->setVisibility($this->productVisibility->getVisibleInSearchIds());
 
+        $this->queryCollectionService->apply($collection, $query);
+
         if ($searchCriteria !== null) {
             $this->collectionProcessor->process($searchCriteria, $collection);
         }
-        $this->queryCollectionService->apply($collection, $query);
 
         foreach ($collection->getItems() as $product) {
             $responseProducts[] = $this->productConverter->convert(

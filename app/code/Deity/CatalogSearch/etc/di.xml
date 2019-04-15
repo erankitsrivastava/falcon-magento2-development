@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Deity\CatalogSearchApi\Api\SearchInterface" type="Deity\CatalogSearch\Model\CatalogSearchProductList" />
     <preference for="Deity\CatalogSearchApi\Api\SearchAutocompleteInterface" type="Deity\CatalogSearch\Model\CatalogSearchAutocomplete" />
-    <preference for="Deity\CatalogSearchApi\Api\QueryCollectionServiceInterface" type="Deity\CatalogSearch\Model\QueryCollection\Service" />
+    <preference for="Deity\CatalogSearchApi\Model\QueryCollectionServiceInterface" type="Deity\CatalogSearch\Model\QueryCollection\Service"/>
 
     <preference for="Magento\Search\Model\AutocompleteInterface" type="Magento\Search\Model\Autocomplete" />
     <preference for="Deity\CatalogSearchApi\Api\ProductFilterProviderInterface" type="Deity\CatalogSearch\Model\ProductFilterProvider" />
@@ -47,13 +47,4 @@
             <argument name="filterList" xsi:type="object">searchFilterList</argument>
         </arguments>
     </type>
-
-    <type name="Deity\CatalogSearch\Model\QueryCollection\Service">
-        <arguments>
-            <argument name="applySearchQueryProcessors" xsi:type="array">
-                <item name="Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection" xsi:type="object">Deity\CatalogSearch\Model\QueryCollection\Processor</item>
-            </argument>
-        </arguments>
-    </type>
-
 </config>

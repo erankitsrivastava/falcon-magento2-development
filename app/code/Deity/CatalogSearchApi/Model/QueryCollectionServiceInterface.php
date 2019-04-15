@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Deity\CatalogSearchApi\Api;
+namespace Deity\CatalogSearchApi\Model;
 
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
