@@ -7,11 +7,16 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class CatalogSearchProductListTest
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> parent of b2305a4f... removed redundant include, cleand up search api parts
  * @package Deity\CatalogSearchApi\Test\Api
  */
 class CatalogSearchProductListTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/catalog-search';
+
+    const RESOURCE_PATH = '/V1/falcon/catalog-search';
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/categories_with_children.php
