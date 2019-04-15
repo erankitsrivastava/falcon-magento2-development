@@ -5,7 +5,6 @@
     <preference for="Deity\CatalogSearchApi\Model\QueryCollectionServiceInterface" type="Deity\CatalogSearch\Model\QueryCollection\Service"/>
 
     <preference for="Magento\Search\Model\AutocompleteInterface" type="Magento\Search\Model\Autocomplete" />
-    <preference for="Deity\CatalogSearchApi\Api\ProductFilterProviderInterface" type="Deity\CatalogSearch\Model\ProductFilterProvider" />
 
     <virtualType name="searchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
         <arguments>
@@ -35,16 +34,17 @@
         </arguments>
     </virtualType>
 
+    <virtualType name="Deity\CatalogSearchApi\VirtualType\Model\ProductFilterProvider" type="Deity\Catalog\Model\ProductFilterProvider">
+        <arguments>
+            <argument name="filterList" xsi:type="object">searchFilterList</argument>
+        </arguments>
+    </virtualType>
+
     <type name="Deity\CatalogSearch\Model\CatalogSearchProductList">
         <arguments>
             <argument name="collectionFactory" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\ResourceModel\Fulltext\SearchCollectionFactory</argument>
             <argument name="collectionProcessor" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\Api\SearchCriteria\ProductCollectionProcessor</argument>
-        </arguments>
-    </type>
-
-    <type name="Deity\CatalogSearchApi\Api\ProductFilterProviderInterface">
-        <arguments>
-            <argument name="filterList" xsi:type="object">searchFilterList</argument>
+            <argument name="productFilterProvider" xsi:type="object">Deity\CatalogSearchApi\VirtualType\Model\ProductFilterProvider</argument>
         </arguments>
     </type>
 </config>

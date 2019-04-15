@@ -6,7 +6,7 @@ namespace Deity\CatalogSearch\Model;
 use Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
 use Deity\CatalogApi\Api\Data\ProductSearchResultsInterfaceFactory;
 use Deity\CatalogApi\Api\ProductConvertInterface;
-use Deity\CatalogSearchApi\Api\ProductFilterProviderInterface;
+use Deity\CatalogApi\Api\ProductFilterProviderInterface;
 use Deity\CatalogSearchApi\Api\SearchInterface;
 use Deity\CatalogSearchApi\Model\QueryCollectionServiceInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
@@ -150,9 +150,7 @@ class CatalogSearchProductList implements SearchInterface
 
         $productSearchResult = $this->productSearchResultFactory->create();
         $productSearchResult->setFilters(
-            $this->filterProvider->getFilterList(
-                $layer
-            )
+            $this->filterProvider->getFilterList($layer, $searchCriteria)
         );
         $productSearchResult->setItems($responseProducts);
         $productSearchResult->setTotalCount($collection->getSize());

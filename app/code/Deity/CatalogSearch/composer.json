@@ -6,6 +6,7 @@
     "require": {
         "magento/framework": "*",
         "magento/module-catalog" : "*",
+        "deity/falcon-magento-catalog" : "*",
         "magento/module-search" : "*",
         "php": "^7.0"
     },
