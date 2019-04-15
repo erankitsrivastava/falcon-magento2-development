@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Deity\CatalogSearchApi\Api;
 
+use Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
+use Magento\Framework\Api\Search\SearchCriteriaInterface;
+
 /**
  * Search API for all requests
  *
@@ -13,10 +16,10 @@ interface SearchInterface
     /**
      * Return products
      *
-     * @param \Magento\Framework\Api\Search\SearchCriteriaInterface $searchCriteria
      * @param string $query
+     * @param \Magento\Framework\Api\Search\SearchCriteriaInterface $searchCriteria
      * @return \Deity\CatalogApi\Api\Data\ProductSearchResultsInterface
      */
-    public function search(\Magento\Framework\Api\Search\SearchCriteriaInterface $searchCriteria, string $query) :
-        \Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
+    public function search(string $query, SearchCriteriaInterface $searchCriteria = null) :
+        ProductSearchResultsInterface;
 }

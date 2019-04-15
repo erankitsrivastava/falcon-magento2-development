@@ -108,8 +108,8 @@ class CatalogSearchProductList implements SearchInterface
         $this->filterProvider = $productFilterProvider;
         $this->productConverter = $convert;
         $this->productSearchResultFactory = $productSearchResultFactory;
-        // this is required to create search layer rather than catalog
-        $layerResolver->create('search');
+
+        $layerResolver->create(Resolver::CATALOG_LAYER_SEARCH);
         $this->searchLayer = $layerResolver->get();
         $this->layerResolver = $layerResolver;
         $this->productRepository = $productRepository;
@@ -122,7 +122,7 @@ class CatalogSearchProductList implements SearchInterface
     /**
      * @inheritdoc
      */
-    public function search(SearchCriteriaInterface $searchCriteria, string $query): ProductSearchResultsInterface
+    public function search(string $query, SearchCriteriaInterface $searchCriteria = null): ProductSearchResultsInterface
     {
         $responseProducts = [];
         $layer = $this->layerResolver->get();
@@ -136,7 +136,9 @@ class CatalogSearchProductList implements SearchInterface
             ->addUrlRewrite()
             ->setVisibility($this->productVisibility->getVisibleInSearchIds());
 
-        $this->collectionProcessor->process($searchCriteria, $collection);
+        if ($searchCriteria !== null) {
+            $this->collectionProcessor->process($searchCriteria, $collection);
+        }
         $this->queryCollectionService->apply($collection, $query);
 
         foreach ($collection->getItems() as $product) {
@@ -148,11 +150,12 @@ class CatalogSearchProductList implements SearchInterface
         $productSearchResult = $this->productSearchResultFactory->create();
         $productSearchResult->setFilters(
             $this->filterProvider->getFilterList(
-                $this->layerResolver->get()
+                $layer
             )
         );
         $productSearchResult->setItems($responseProducts);
         $productSearchResult->setTotalCount($collection->getSize());
+
         return $productSearchResult;
     }
 }

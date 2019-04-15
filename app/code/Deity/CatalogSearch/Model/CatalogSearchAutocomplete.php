@@ -32,6 +32,7 @@ class CatalogSearchAutocomplete implements SearchAutocompleteInterface
 
     /**
      * CatalogSearchAutocomplete constructor.
+     *
      * @param Context $context
      * @param AutocompleteInterfaceFactory $autocomplete
      * @param State $state

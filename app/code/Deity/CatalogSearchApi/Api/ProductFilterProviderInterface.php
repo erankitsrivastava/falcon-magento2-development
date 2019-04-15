@@ -7,6 +7,7 @@ use Magento\Catalog\Model\Layer;
 
 /**
  * Interface ProductFilterProviderInterface
+ *
  * @package Deity\CatalogSearchApi\Api
  */
 interface ProductFilterProviderInterface

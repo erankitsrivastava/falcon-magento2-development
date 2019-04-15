@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Deity\CatalogSearchApi\Api\SearchInterface" type="Deity\CatalogSearch\Model\CatalogSearchProductList" />
-    <preference for="Deity\CatalogApi\Api\Data\ProductSearchResultsInterface" type="Deity\Catalog\Model\Data\ProductSearchResults" />
     <preference for="Deity\CatalogSearchApi\Api\SearchAutocompleteInterface" type="Deity\CatalogSearch\Model\CatalogSearchAutocomplete" />
     <preference for="Deity\CatalogSearchApi\Api\QueryCollectionServiceInterface" type="Deity\CatalogSearch\Model\QueryCollection\Service" />
+
     <preference for="Magento\Search\Model\AutocompleteInterface" type="Magento\Search\Model\Autocomplete" />
     <preference for="Deity\CatalogSearchApi\Api\ProductFilterProviderInterface" type="Deity\CatalogSearch\Model\ProductFilterProvider" />
 
@@ -13,19 +13,19 @@
         </arguments>
     </virtualType>
 
-    <virtualType name="Deity\VirtualType\CatalogSearch\Model\ResourceModel\Fulltext\SearchCollection" type="Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection">
+    <virtualType name="Deity\CatalogSearch\VirtualType\Model\ResourceModel\Fulltext\SearchCollection" type="Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection">
         <arguments>
             <argument name="searchRequestName" xsi:type="string">quick_search_container</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="Deity\VirtualType\CatalogSearch\Model\ResourceModel\Fulltext\SearchCollectionFactory" type="Magento\Catalog\Model\ResourceModel\Product\CollectionFactory">
+    <virtualType name="Deity\CatalogSearch\VirtualType\Model\ResourceModel\Fulltext\SearchCollectionFactory" type="Magento\Catalog\Model\ResourceModel\Product\CollectionFactory">
         <arguments>
-            <argument name="instanceName" xsi:type="string">Deity\VirtualType\CatalogSearch\Model\ResourceModel\Fulltext\SearchCollection</argument>
+            <argument name="instanceName" xsi:type="string">Deity\CatalogSearch\VirtualType\Model\ResourceModel\Fulltext\SearchCollection</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="Deity\VirtualType\CatalogSearch\Model\Api\SearchCriteria\ProductCollectionProcessor" type="Magento\Eav\Model\Api\SearchCriteria\CollectionProcessor">
+    <virtualType name="Deity\CatalogSearch\VirtualType\Model\Api\SearchCriteria\ProductCollectionProcessor" type="Magento\Eav\Model\Api\SearchCriteria\CollectionProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
                 <item name="filters" xsi:type="object">Deity\Catalog\Model\SearchCriteria\CollectionProcessor\FilterProcessor</item>
@@ -37,8 +37,8 @@
 
     <type name="Deity\CatalogSearch\Model\CatalogSearchProductList">
         <arguments>
-            <argument name="collectionFactory" xsi:type="object">Deity\VirtualType\CatalogSearch\Model\ResourceModel\Fulltext\SearchCollectionFactory</argument>
-            <argument name="collectionProcessor" xsi:type="object">Deity\VirtualType\CatalogSearch\Model\Api\SearchCriteria\ProductCollectionProcessor</argument>
+            <argument name="collectionFactory" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\ResourceModel\Fulltext\SearchCollectionFactory</argument>
+            <argument name="collectionProcessor" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\Api\SearchCriteria\ProductCollectionProcessor</argument>
         </arguments>
     </type>
 
