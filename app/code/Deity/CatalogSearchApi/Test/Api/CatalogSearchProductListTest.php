@@ -7,10 +7,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class CatalogSearchProductListTest
-<<<<<<< HEAD
-=======
  *
->>>>>>> parent of b2305a4f... removed redundant include, cleand up search api parts
  * @package Deity\CatalogSearchApi\Test\Api
  */
 class CatalogSearchProductListTest extends WebapiAbstract
