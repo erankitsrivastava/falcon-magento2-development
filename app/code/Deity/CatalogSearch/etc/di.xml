@@ -3,6 +3,7 @@
     <preference for="Deity\CatalogSearchApi\Api\SearchInterface" type="Deity\CatalogSearch\Model\CatalogSearchProductList" />
     <preference for="Deity\CatalogSearchApi\Api\SearchAutocompleteInterface" type="Deity\CatalogSearch\Model\CatalogSearchAutocomplete" />
     <preference for="Deity\CatalogSearchApi\Model\QueryCollectionServiceInterface" type="Deity\CatalogSearch\Model\QueryCollection\Service"/>
+    <preference for="Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface" type="Deity\CatalogSearch\Model\Data\AutocompleteItem"/>
 
     <preference for="Magento\Search\Model\AutocompleteInterface" type="Magento\Search\Model\Autocomplete" />
 
@@ -45,6 +46,14 @@
             <argument name="collectionFactory" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\ResourceModel\Fulltext\SearchCollectionFactory</argument>
             <argument name="collectionProcessor" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\Api\SearchCriteria\ProductCollectionProcessor</argument>
             <argument name="productFilterProvider" xsi:type="object">Deity\CatalogSearchApi\VirtualType\Model\ProductFilterProvider</argument>
+        </arguments>
+    </type>
+
+    <type name="Deity\CatalogSearch\Model\CatalogSearchAutocomplete">
+        <arguments>
+            <argument name="dataProviders" xsi:type="array">
+                <item name="suggestion" xsi:type="object">Deity\CatalogSearch\Model\Autocomplete\SuggestionProvider</item>
+            </argument>
         </arguments>
     </type>
 </config>

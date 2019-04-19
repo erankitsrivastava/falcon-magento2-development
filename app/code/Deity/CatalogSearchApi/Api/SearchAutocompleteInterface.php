@@ -15,7 +15,7 @@ interface SearchAutocompleteInterface
      * Main search method
      *
      * @param string $q
-     * @return array
+     * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface[]
      */
     public function search(string $q): array;
 }

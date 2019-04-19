@@ -4,11 +4,9 @@ declare(strict_types=1);
 namespace Deity\CatalogSearch\Model;
 
 use Deity\CatalogSearchApi\Api\SearchAutocompleteInterface;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\State;
+use Deity\CatalogSearchApi\Model\Autocomplete\DataProviderInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Search\Model\AutocompleteInterfaceFactory;
-use Magento\Search\Model\AutocompleteInterface;
 
 /**
  * Class CatalogSearchAutocomplete
@@ -18,53 +16,41 @@ use Magento\Search\Model\AutocompleteInterface;
 class CatalogSearchAutocomplete implements SearchAutocompleteInterface
 {
     /**
-     * @var AutocompleteInterfaceFactory
+     * @var \Deity\CatalogSearchApi\Model\Autocomplete\DataProviderInterface[]
      */
-    protected $autocompleteFactory;
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
-    /**
-     * @var State
-     */
-    protected $state;
+    private $dataProviders;
 
     /**
-     * CatalogSearchAutocomplete constructor.
-     *
-     * @param Context $context
-     * @param AutocompleteInterfaceFactory $autocomplete
-     * @param State $state
+     * @param array $dataProviders
+     * @throws LocalizedException
      */
     public function __construct(
-        Context $context,
-        AutocompleteInterfaceFactory $autocomplete,
-        State $state
+        array $dataProviders
     ) {
-        $this->autocompleteFactory = $autocomplete;
-        $this->request = $context->getRequest();
-        $this->state = $state;
+        foreach ($dataProviders as $dataProvider) {
+            if (! $dataProvider instanceof DataProviderInterface) {
+                throw new LocalizedException(
+                    __('Data Provider must implement DataProviderInterface.')
+                );
+            }
+        }
+        $this->dataProviders = $dataProviders;
+        ksort($this->dataProviders);
     }
 
     /**
-     * @inheritdoc
+     * Main search method
+     *
+     * @param string $q
+     * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface[]
      */
     public function search(string $q): array
     {
-        if (!$this->request->getParam('q', false)) {
-            return [];
+        $data = [];
+        foreach ($this->dataProviders as $dataProvider) {
+            $data = array_merge($data, $dataProvider->getAutocompleteItemsForQuery($q));
         }
-        return $this->state->emulateAreaCode(
-            'frontend',
-            function (AutocompleteInterface $autocompleteObject) {
-                $responseData = [];
-                foreach ($autocompleteObject->getItems() as $resultItem) {
-                    $responseData[] = $resultItem->toArray();
-                }
-                return $responseData;
-            },
-            [$this->autocompleteFactory->create()]
-        );
+
+        return $data;
     }
 }
