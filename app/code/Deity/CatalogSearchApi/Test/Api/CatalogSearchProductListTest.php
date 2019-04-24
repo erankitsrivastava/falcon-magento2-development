@@ -13,11 +13,11 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 class CatalogSearchProductListTest extends WebapiAbstract
 {
 
-    const RESOURCE_PATH = '/V1/falcon/catalog-search';
+    private const RESOURCE_PATH = '/V1/falcon/catalog-search';
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/categories_with_children.php
-     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/full_reindex.php
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/search_reindex.php
      */
     public function testGetListRequestSimpleQuery()
     {
@@ -42,7 +42,7 @@ class CatalogSearchProductListTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/categories_with_filters.php
-     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/full_reindex.php
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/search_reindex.php
      */
     public function testGetListWithFilters()
     {
@@ -79,7 +79,7 @@ class CatalogSearchProductListTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/categories_with_children.php
-     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/full_reindex.php
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/search_reindex.php
      */
     public function testGetListWithPageSizeParam()
     {
@@ -106,7 +106,7 @@ class CatalogSearchProductListTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/categories_with_children.php
-     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/full_reindex.php
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/search_reindex.php
      */
     public function testGetListWithCurrentPageParam()
     {
@@ -135,7 +135,7 @@ class CatalogSearchProductListTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/categories_with_filters.php
-     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/full_reindex.php
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/search_reindex.php
      */
     public function testGetListFilterReturnFields()
     {
