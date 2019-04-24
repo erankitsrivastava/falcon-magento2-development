@@ -16,8 +16,8 @@ interface ProductUrlPathProviderInterface
      * Get product url path
      *
      * @param Product $product
-     * @param int|null $categoryId
+     * @param string|null $categoryId
      * @return string
      */
-    public function getProductUrlPath(Product $product, ?int $categoryId): string;
+    public function getProductUrlPath(Product $product, ?string $categoryId): string;
 }

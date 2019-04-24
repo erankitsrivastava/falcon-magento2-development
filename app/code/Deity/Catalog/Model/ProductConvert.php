@@ -77,7 +77,7 @@ class ProductConvert implements ProductConvertInterface
         $deityProduct = $this->productFactory->create();
         $deityProduct->setName($product->getName());
         $deityProduct->setSku($product->getSku());
-        $deityProduct->setUrlPath($this->urlPathProvider->getProductUrlPath($product, $product->getCategoryId()));
+        $deityProduct->setUrlPath($this->urlPathProvider->getProductUrlPath($product, (string)$product->getCategoryId()));
         $deityProduct->setIsSalable((int)$product->getIsSalable());
 
         $deityProduct->setImage(

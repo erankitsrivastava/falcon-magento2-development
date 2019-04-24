@@ -16,7 +16,7 @@
     <preference for="Deity\CatalogApi\Api\ProductFilterProviderInterface" type="Deity\Catalog\Model\ProductFilterProvider" />
     <preference for="Deity\CatalogApi\Model\ProductUrlPathProviderInterface" type="Deity\Catalog\Model\Product\UrlPathProvider" />
 
-    <type name="Deity\Catalog\Model\ProductConvert">
+    <type name="Deity\Catalog\Model\Product\UrlPathProvider">
         <arguments>
             <argument name="urlFinder" xsi:type="object">Magento\CatalogUrlRewrite\Model\Storage\DbStorage</argument>
         </arguments>

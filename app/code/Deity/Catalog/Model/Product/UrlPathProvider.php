@@ -35,18 +35,18 @@ class UrlPathProvider implements ProductUrlPathProviderInterface
      * Get product url path
      *
      * @param Product $product
-     * @param int|null $categoryId
+     * @param string|null $categoryId
      * @return string
      * @throws LocalizedException
      */
-    public function getProductUrlPath(Product $product, ?int $categoryId = null): string
+    public function getProductUrlPath(Product $product, ?string $categoryId = ''): string
     {
         $filterData = [
             UrlRewrite::ENTITY_ID => $product->getId(),
             UrlRewrite::ENTITY_TYPE => \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,
             UrlRewrite::STORE_ID => $product->getStoreId(),
         ];
-        if ($categoryId !== null) {
+        if ($categoryId !== null && $categoryId !== '') {
             $filterData[UrlRewrite::METADATA]['category_id'] = $categoryId;
         }
 
