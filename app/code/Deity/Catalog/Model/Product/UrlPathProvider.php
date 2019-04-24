@@ -30,8 +30,7 @@ class UrlPathProvider implements ProductUrlPathProviderInterface
     {
         $this->urlFinder = $urlFinder;
     }
-
-
+    
     /**
      * Get product url path
      *

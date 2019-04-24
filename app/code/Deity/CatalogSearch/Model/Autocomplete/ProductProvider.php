@@ -75,7 +75,6 @@ class ProductProvider implements DataProviderInterface
         $this->queryCollectionService = $queryCollectionService;
     }
 
-
     /**
      * Provide autocomplete data
      *
