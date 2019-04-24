@@ -58,7 +58,6 @@ class AutocompleteItem implements AutocompleteItemInterface
         $this->extensionAttributesFactory = $extensionAttributesFactory;
     }
 
-
     /**
      * Get item title
      *
@@ -109,8 +108,9 @@ class AutocompleteItem implements AutocompleteItemInterface
      * @param \Deity\CatalogSearchApi\Api\Data\AutocompleteItemExtensionInterface $extensionAttributes
      * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface
      */
-    public function setExtensionAttributes(AutocompleteItemExtensionInterface $extensionAttributes): AutocompleteItemInterface
-    {
+    public function setExtensionAttributes(
+        AutocompleteItemExtensionInterface $extensionAttributes
+    ): AutocompleteItemInterface {
         $this->extensionAttributes = $extensionAttributes;
         return $this;
     }

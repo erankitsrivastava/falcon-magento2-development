@@ -77,6 +77,8 @@ class ProductProvider implements DataProviderInterface
 
 
     /**
+     * Provide autocomplete data
+     *
      * @param string $query
      * @return AutocompleteItemInterface[]
      */

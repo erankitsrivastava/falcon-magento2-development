@@ -11,6 +11,8 @@ namespace Deity\CatalogSearchApi\Model\Autocomplete;
 interface DataProviderInterface
 {
     /**
+     * Provide autocomplete data
+     *
      * @param string $query
      * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface[]
      */

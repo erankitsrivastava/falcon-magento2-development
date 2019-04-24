@@ -62,6 +62,8 @@ class SuggestionProvider implements DataProviderInterface
     }
 
     /**
+     * Provide autocomplete data
+     *
      * @param string $query
      * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface[]
      * @throws \Exception
@@ -84,7 +86,6 @@ class SuggestionProvider implements DataProviderInterface
             },
             [$this->autocompleteFactory->create()]
         );
-
 
         foreach ($magentoAutocompleteItems as $item) {
             $result[] = $this->itemFactory->create([

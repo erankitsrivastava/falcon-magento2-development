@@ -14,7 +14,6 @@ class SearchAutocompleteTest extends WebapiAbstract
 {
     private const AUTOCOMPLETE_REST_PATH = '/V1/falcon/catalog-search/autocomplete?q=#query';
 
-
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/searchable_products.php
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogSearchApi/Test/_files/search_reindex.php

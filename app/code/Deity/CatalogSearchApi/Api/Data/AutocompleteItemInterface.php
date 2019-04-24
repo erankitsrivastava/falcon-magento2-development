@@ -53,5 +53,7 @@ interface AutocompleteItemInterface extends ExtensibleDataInterface
      * @param \Deity\CatalogSearchApi\Api\Data\AutocompleteItemExtensionInterface $extensionAttributes
      * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface
      */
-    public function setExtensionAttributes(AutocompleteItemExtensionInterface $extensionAttributes): AutocompleteItemInterface;
+    public function setExtensionAttributes(
+        AutocompleteItemExtensionInterface $extensionAttributes
+    ): AutocompleteItemInterface;
 }
