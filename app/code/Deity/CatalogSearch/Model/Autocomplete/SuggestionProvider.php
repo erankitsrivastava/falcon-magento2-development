@@ -24,6 +24,8 @@ class SuggestionProvider implements DataProviderInterface
      */
     const CONFIG_AUTOCOMPLETE_LIMIT = 'catalog/search/autocomplete_limit';
 
+    public const AUTOCOMPLETE_TYPE_SUGGESTION = 'suggestion';
+
     /**
      * Query factory
      *
@@ -99,6 +101,7 @@ class SuggestionProvider implements DataProviderInterface
             $resultItem = $this->itemFactory->create([
                 'title' => $item->getQueryText(),
                 'url' => $item->getQueryText(),
+                'type' => self::AUTOCOMPLETE_TYPE_SUGGESTION
             ]);
             if ($resultItem->getTitle() == $query) {
                 array_unshift($result, $resultItem);

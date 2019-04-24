@@ -14,9 +14,6 @@ use Magento\Framework\Api\ExtensionAttributesFactory;
  */
 class AutocompleteItem implements AutocompleteItemInterface
 {
-
-    public const AUTOCOMPLETE_TYPE_SUGGESTION = 'suggestion';
-
     /**
      * @var string
      */
@@ -26,6 +23,11 @@ class AutocompleteItem implements AutocompleteItemInterface
      * @var string
      */
     private $url;
+
+    /**
+     * @var string
+     */
+    private $type;
 
     /**
      * @var AutocompleteItemExtensionInterface
@@ -41,14 +43,17 @@ class AutocompleteItem implements AutocompleteItemInterface
      * AutocompleteItem constructor.
      * @param string $title
      * @param string $url
+     * @param string $type
      * @param ExtensionAttributesFactory $extensionAttributesFactory
      */
     public function __construct(
         string $title,
         string $url,
+        string $type,
         ExtensionAttributesFactory $extensionAttributesFactory
     ) {
         $this->title = $title;
+        $this->type = $type;
         $this->url = $url;
         $this->extensionAttributesFactory = $extensionAttributesFactory;
     }
@@ -81,7 +86,7 @@ class AutocompleteItem implements AutocompleteItemInterface
      */
     public function getType(): string
     {
-        return self::AUTOCOMPLETE_TYPE_SUGGESTION;
+        return $this->type;
     }
 
     /**
