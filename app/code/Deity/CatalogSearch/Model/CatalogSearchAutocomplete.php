@@ -6,7 +6,6 @@ namespace Deity\CatalogSearch\Model;
 use Deity\CatalogSearchApi\Api\SearchAutocompleteInterface;
 use Deity\CatalogSearchApi\Model\Autocomplete\DataProviderInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Search\Model\AutocompleteInterfaceFactory;
 
 /**
  * Class CatalogSearchAutocomplete

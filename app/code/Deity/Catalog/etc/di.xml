@@ -14,6 +14,7 @@
     <preference for="Deity\CatalogApi\Api\ProductImageProviderInterface" type="Deity\Catalog\Model\Product\ImageProvider" />
     <preference for="Deity\CatalogApi\Api\ProductPriceProviderInterface" type="Deity\Catalog\Model\Product\PriceProvider" />
     <preference for="Deity\CatalogApi\Api\ProductFilterProviderInterface" type="Deity\Catalog\Model\ProductFilterProvider" />
+    <preference for="Deity\CatalogApi\Model\ProductUrlPathProviderInterface" type="Deity\Catalog\Model\Product\UrlPathProvider" />
 
     <type name="Deity\Catalog\Model\ProductConvert">
         <arguments>
