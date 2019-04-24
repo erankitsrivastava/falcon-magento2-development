@@ -53,6 +53,7 @@
         <arguments>
             <argument name="dataProviders" xsi:type="array">
                 <item name="suggestion" xsi:type="object">Deity\CatalogSearch\Model\Autocomplete\SuggestionProvider</item>
+                <item name="product" xsi:type="object">Deity\CatalogSearch\Model\Autocomplete\ProductProvider</item>
             </argument>
         </arguments>
     </type>

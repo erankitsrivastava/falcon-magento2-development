@@ -21,8 +21,6 @@ class SuggestionProvider implements DataProviderInterface
 {
     public const AUTOCOMPLETE_TYPE_SUGGESTION = 'suggestion';
 
-    public const FALCON_SEARCH_PAGE_PATH_TEMPLATE = 'search?q=';
-
     /**
      * @var State
      */
@@ -91,7 +89,7 @@ class SuggestionProvider implements DataProviderInterface
         foreach ($magentoAutocompleteItems as $item) {
             $result[] = $this->itemFactory->create([
                 AutocompleteItemInterface::TITLE => $item['title'],
-                AutocompleteItemInterface::URL_PATH => self::FALCON_SEARCH_PAGE_PATH_TEMPLATE . $item['title'],
+                AutocompleteItemInterface::URL_PATH => '',
                 AutocompleteItemInterface::TYPE => self::AUTOCOMPLETE_TYPE_SUGGESTION
             ]);
         }
