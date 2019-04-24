@@ -22,7 +22,7 @@ class AutocompleteItem implements AutocompleteItemInterface
     /**
      * @var string
      */
-    private $url;
+    private $urlPath;
 
     /**
      * @var string
@@ -42,19 +42,19 @@ class AutocompleteItem implements AutocompleteItemInterface
     /**
      * AutocompleteItem constructor.
      * @param string $title
-     * @param string $url
+     * @param string $urlPath
      * @param string $type
      * @param ExtensionAttributesFactory $extensionAttributesFactory
      */
     public function __construct(
         string $title,
-        string $url,
+        string $urlPath,
         string $type,
         ExtensionAttributesFactory $extensionAttributesFactory
     ) {
         $this->title = $title;
         $this->type = $type;
-        $this->url = $url;
+        $this->urlPath = $urlPath;
         $this->extensionAttributesFactory = $extensionAttributesFactory;
     }
 
@@ -74,9 +74,9 @@ class AutocompleteItem implements AutocompleteItemInterface
      *
      * @return string
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return $this->url;
+        return $this->urlPath;
     }
 
     /**

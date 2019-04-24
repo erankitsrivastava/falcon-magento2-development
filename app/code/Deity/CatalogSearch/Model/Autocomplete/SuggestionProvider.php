@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Deity\CatalogSearch\Model\Autocomplete;
 
+use Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface;
 use Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterfaceFactory as ItemFactory;
 use Deity\CatalogSearchApi\Model\Autocomplete\DataProviderInterface;
 use Magento\Framework\App\Action\Context;
@@ -87,9 +88,9 @@ class SuggestionProvider implements DataProviderInterface
 
         foreach ($magentoAutocompleteItems as $item) {
             $result[] = $this->itemFactory->create([
-                'title' => $item['title'],
-                'url' => $item['title'],
-                'type' => self::AUTOCOMPLETE_TYPE_SUGGESTION
+                AutocompleteItemInterface::TITLE => $item['title'],
+                AutocompleteItemInterface::URL_PATH => $item['title'],
+                AutocompleteItemInterface::TYPE => self::AUTOCOMPLETE_TYPE_SUGGESTION
             ]);
         }
         return $result;

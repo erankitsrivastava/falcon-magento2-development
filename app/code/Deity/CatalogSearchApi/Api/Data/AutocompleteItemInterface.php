@@ -13,6 +13,12 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface AutocompleteItemInterface extends ExtensibleDataInterface
 {
 
+    const TYPE = 'type';
+
+    const TITLE = 'title';
+
+    const URL_PATH = 'urlPath';
+
     /**
      * Get item title
      *
@@ -21,11 +27,11 @@ interface AutocompleteItemInterface extends ExtensibleDataInterface
     public function getTitle(): string;
 
     /**
-     * Get item Url
+     * Get item Url path
      *
      * @return string
      */
-    public function getUrl(): string;
+    public function getUrlPath(): string;
 
     /**
      * Get item type
