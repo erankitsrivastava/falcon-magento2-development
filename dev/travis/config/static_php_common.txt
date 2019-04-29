@@ -2,6 +2,7 @@
 app/code/Deity/Base*
 app/code/Deity/Breadcrumbs*
 app/code/Deity/Catalog*
+app/code/Deity/CatalogSearch*
 app/code/Deity/Checkout*
 app/code/Deity/Customer*
 app/code/Deity/Menu*
