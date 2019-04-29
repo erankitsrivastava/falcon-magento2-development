@@ -23,6 +23,7 @@ interface ProductDetailInterface extends ExtensibleDataInterface
     const MEDIA_GALLERY_FIELD_KEY = 'media_gallery_sizes';
     const PRICE_FIELD_KEY = 'price';
     const TIER_PRICES_FIELD_KEY = 'tier_prices';
+    const STOCK_FIELD_KEY = 'stock';
 
     /**
      * Get product id
@@ -100,6 +101,13 @@ interface ProductDetailInterface extends ExtensibleDataInterface
      * @return \Magento\Catalog\Api\Data\ProductTierPriceInterface[]|null
      */
     public function getTierPrices();
+
+    /**
+     * Get stock info
+     *
+     * @return \Deity\CatalogApi\Api\Data\ProductStockInterface
+     */
+    public function getStock(): ProductStockInterface;
 
     /**
      * Get extension attributes

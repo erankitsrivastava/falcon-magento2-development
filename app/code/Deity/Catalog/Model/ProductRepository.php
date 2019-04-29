@@ -9,6 +9,7 @@ use Deity\CatalogApi\Api\MediaGalleryProviderInterface;
 use Deity\CatalogApi\Api\ProductImageProviderInterface;
 use Deity\CatalogApi\Api\ProductPriceProviderInterface;
 use Deity\CatalogApi\Api\ProductRepositoryInterface;
+use Deity\CatalogApi\Model\ProductStockProviderInterface;
 use Deity\CatalogApi\Model\ProductUrlPathProviderInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface as MagentoProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
@@ -53,12 +54,18 @@ class ProductRepository implements ProductRepositoryInterface
     private $productPriceProvider;
 
     /**
+     * @var ProductStockProviderInterface
+     */
+    private $productStockProvider;
+
+    /**
      * ProductRepository constructor.
      * @param ProductDetailInterfaceFactory $productDetailFactory
      * @param MediaGalleryProviderInterface $mediaGalleryProvider
      * @param ProductImageProviderInterface $productImageProvider
      * @param ProductUrlPathProviderInterface $urlPathProvider
      * @param ProductPriceProviderInterface $priceProvider
+     * @param ProductStockProviderInterface $productStockProvider
      * @param MagentoProductRepositoryInterface $magentoRepository
      */
     public function __construct(
@@ -67,8 +74,10 @@ class ProductRepository implements ProductRepositoryInterface
         ProductImageProviderInterface $productImageProvider,
         ProductUrlPathProviderInterface $urlPathProvider,
         ProductPriceProviderInterface $priceProvider,
+        ProductStockProviderInterface $productStockProvider,
         MagentoProductRepositoryInterface $magentoRepository
     ) {
+        $this->productStockProvider = $productStockProvider;
         $this->productPriceProvider = $priceProvider;
         $this->urlPathProvider = $urlPathProvider;
         $this->mediaGalleryProvider = $mediaGalleryProvider;
@@ -110,7 +119,8 @@ class ProductRepository implements ProductRepositoryInterface
                 ProductDetailInterface::URL_PATH_FIELD_KEY => $this->urlPathProvider->getProductUrlPath($productObject),
                 ProductDetailInterface::MEDIA_GALLERY_FIELD_KEY => $mediaGalleryInfo,
                 ProductDetailInterface::TIER_PRICES_FIELD_KEY => $tierPrices,
-                ProductDetailInterface::PRICE_FIELD_KEY => $priceObject
+                ProductDetailInterface::PRICE_FIELD_KEY => $priceObject,
+                ProductDetailInterface::STOCK_FIELD_KEY => $this->productStockProvider->getStockData($productObject)
             ]
         );
     }

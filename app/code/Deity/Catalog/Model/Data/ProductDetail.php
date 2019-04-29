@@ -6,6 +6,7 @@ namespace Deity\Catalog\Model\Data;
 use Deity\CatalogApi\Api\Data\ProductDetailExtensionInterface;
 use Deity\CatalogApi\Api\Data\ProductDetailInterface;
 use Deity\CatalogApi\Api\Data\ProductPriceInterface;
+use Deity\CatalogApi\Api\Data\ProductStockInterface;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 
 /**
@@ -67,6 +68,11 @@ class ProductDetail implements ProductDetailInterface
     private $priceObject;
 
     /**
+     * @var ProductStockInterface
+     */
+    private $stockObject;
+
+    /**
      * @var \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface[]
      */
     private $tierPrices;
@@ -93,6 +99,7 @@ class ProductDetail implements ProductDetailInterface
      * @param string $type_id
      * @param array $media_gallery_sizes
      * @param ProductPriceInterface $price
+     * @param ProductStockInterface $stock
      * @param ExtensionAttributesFactory $extensionAttributesFactory
      * @param array $tier_prices
      */
@@ -107,9 +114,11 @@ class ProductDetail implements ProductDetailInterface
         string $type_id,
         array $media_gallery_sizes,
         ProductPriceInterface $price,
+        ProductStockInterface $stock,
         ExtensionAttributesFactory $extensionAttributesFactory,
         array $tier_prices
     ) {
+        $this->stockObject = $stock;
         $this->tierPrices = $tier_prices;
         $this->priceObject = $price;
         $this->urlPath = $url_path;
@@ -259,5 +268,15 @@ class ProductDetail implements ProductDetailInterface
     public function getTierPrices()
     {
         return $this->tierPrices;
+    }
+
+    /**
+     * Get stock info
+     *
+     * @return ProductStockInterface
+     */
+    public function getStock(): ProductStockInterface
+    {
+        return $this->stockObject;
     }
 }
