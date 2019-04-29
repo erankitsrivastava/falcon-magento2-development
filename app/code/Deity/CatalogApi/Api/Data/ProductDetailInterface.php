@@ -10,10 +10,85 @@ namespace Deity\CatalogApi\Api\Data;
  */
 interface ProductDetailInterface
 {
+    const ID_FIELD_KEY = 'id';
+    const SKU_FIELD_KEY = 'sku';
+    const NAME_FIELD_KEY = 'name';
+    const IMAGE_FIELD_KEY = 'image';
+    const IMAGE_RESIZED_FIELD_KEY = 'image_resized';
+    const TYPE_ID_FIELD_KEY = 'type_id';
+    const IS_SALABLE_FIELD_KEY = 'is_salable';
+    const MEDIA_GALLERY_FIELD_KEY = 'media_gallery_sizes';
+
     /**
      * Get product id
      *
      * @return int
      */
     public function getId(): int;
+
+    /**
+     * Get product sku
+     *
+     * @return string
+     */
+    public function getSku(): string;
+
+    /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getName(): string;
+
+    /**
+     * Get full size product image url
+     *
+     * @return string
+     */
+    public function getImage(): string;
+
+    /**
+     * Get resized product image
+     *
+     * @return string
+     */
+    public function getImageResized(): string;
+
+    /**
+     * Get product type id
+     *
+     * @return string
+     */
+    public function getTypeId(): string;
+
+    /**
+     * Get if product is salable
+     *
+     * @return int
+     */
+    public function getIsSalable(): int;
+
+    /**
+     * Get media AutocompleteItemExtensionInterfacegallery items
+     *
+     * @return \Deity\CatalogApi\Api\Data\GalleryMediaEntrySizeInterface[]
+     */
+    public function getMediaGallerySizes(): array;
+
+    /**
+     * Get extension attributes
+     *
+     * @return \Deity\CatalogApi\Api\Data\ProductDetailExtensionInterface
+     */
+    public function getExtensionAttributes();
+
+    /**
+     * Set extension attributes
+     *
+     * @param \Deity\CatalogApi\Api\Data\ProductDetailExtensionInterface $extensionAttributes
+     * @return \Deity\CatalogApi\Api\Data\ProductDetailInterface
+     */
+    public function setExtensionAttributes(
+        ProductDetailExtensionInterface $extensionAttributes
+    ): ProductDetailInterface;
 }

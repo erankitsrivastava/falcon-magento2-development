@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Deity\CatalogApi\Test\Api;
 
+use Deity\CatalogApi\Api\Data\ProductDetailInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
@@ -40,7 +41,8 @@ class ProductApiTest extends WebapiAbstract
             $this->fail("Product data response expected");
         }
 
-        $this->assertEquals(1, $resposeData['id'], 'Product id should match');
+        /** @var array $resposeData */
+        $this->assertEquals(1, $resposeData[ProductDetailInterface::ID_FIELD_KEY], 'Product id should match');
     }
 
 }
