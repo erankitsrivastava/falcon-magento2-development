@@ -5,6 +5,7 @@ namespace Deity\Catalog\Model\Data;
 
 use Deity\CatalogApi\Api\Data\ProductDetailExtensionInterface;
 use Deity\CatalogApi\Api\Data\ProductDetailInterface;
+use Deity\CatalogApi\Api\Data\ProductPriceInterface;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 
 /**
@@ -56,7 +57,22 @@ class ProductDetail implements ProductDetailInterface
     private $mediaGallery;
 
     /**
-     * @var ProductDetailExtensionInterface\Interface
+     * @var string
+     */
+    private $urlPath;
+
+    /**
+     * @var ProductPriceInterface
+     */
+    private $priceObject;
+
+    /**
+     * @var \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface[]
+     */
+    private $tierPrices;
+
+    /**
+     * @var ProductDetailExtensionInterface
      */
     private $extensionAttributes;
 
@@ -73,9 +89,12 @@ class ProductDetail implements ProductDetailInterface
      * @param int $is_salable
      * @param string $name
      * @param string $sku
+     * @param string $url_path
      * @param string $type_id
      * @param array $media_gallery_sizes
+     * @param ProductPriceInterface $price
      * @param ExtensionAttributesFactory $extensionAttributesFactory
+     * @param array $tier_prices
      */
     public function __construct(
         int $id,
@@ -84,10 +103,16 @@ class ProductDetail implements ProductDetailInterface
         int $is_salable,
         string $name,
         string $sku,
+        string $url_path,
         string $type_id,
         array $media_gallery_sizes,
-        ExtensionAttributesFactory $extensionAttributesFactory
+        ProductPriceInterface $price,
+        ExtensionAttributesFactory $extensionAttributesFactory,
+        array $tier_prices
     ) {
+        $this->tierPrices = $tier_prices;
+        $this->priceObject = $price;
+        $this->urlPath = $url_path;
         $this->extensionAttributesFactory = $extensionAttributesFactory;
         $this->mediaGallery = $media_gallery_sizes;
         $this->id = $id;
@@ -204,5 +229,35 @@ class ProductDetail implements ProductDetailInterface
     {
         $this->extensionAttributes = $extensionAttributes;
         return $this;
+    }
+
+    /**
+     * Get product url path
+     *
+     * @return string
+     */
+    public function getUrlPath(): string
+    {
+        return $this->urlPath;
+    }
+
+    /**
+     * Get product price object
+     *
+     * @return \Deity\CatalogApi\Api\Data\ProductPriceInterface
+     */
+    public function getPrice(): ProductPriceInterface
+    {
+        return $this->priceObject;
+    }
+
+    /**
+     * Gets list of product tier prices
+     *
+     * @return \Magento\Catalog\Api\Data\ProductTierPriceInterface[]|null
+     */
+    public function getTierPrices()
+    {
+        return $this->tierPrices;
     }
 }

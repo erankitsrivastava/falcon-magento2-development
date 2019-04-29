@@ -7,7 +7,9 @@ use Deity\CatalogApi\Api\Data\ProductDetailInterface;
 use Deity\CatalogApi\Api\Data\ProductDetailInterfaceFactory;
 use Deity\CatalogApi\Api\MediaGalleryProviderInterface;
 use Deity\CatalogApi\Api\ProductImageProviderInterface;
+use Deity\CatalogApi\Api\ProductPriceProviderInterface;
 use Deity\CatalogApi\Api\ProductRepositoryInterface;
+use Deity\CatalogApi\Model\ProductUrlPathProviderInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface as MagentoProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -41,18 +43,34 @@ class ProductRepository implements ProductRepositoryInterface
     private $mediaGalleryProvider;
 
     /**
+     * @var ProductUrlPathProviderInterface
+     */
+    private $urlPathProvider;
+
+    /**
+     * @var ProductPriceProviderInterface
+     */
+    private $productPriceProvider;
+
+    /**
      * ProductRepository constructor.
      * @param ProductDetailInterfaceFactory $productDetailFactory
      * @param MediaGalleryProviderInterface $mediaGalleryProvider
      * @param ProductImageProviderInterface $productImageProvider
+     * @param ProductUrlPathProviderInterface $urlPathProvider
+     * @param ProductPriceProviderInterface $priceProvider
      * @param MagentoProductRepositoryInterface $magentoRepository
      */
     public function __construct(
         ProductDetailInterfaceFactory $productDetailFactory,
         MediaGalleryProviderInterface $mediaGalleryProvider,
         ProductImageProviderInterface $productImageProvider,
+        ProductUrlPathProviderInterface $urlPathProvider,
+        ProductPriceProviderInterface $priceProvider,
         MagentoProductRepositoryInterface $magentoRepository
     ) {
+        $this->productPriceProvider = $priceProvider;
+        $this->urlPathProvider = $urlPathProvider;
         $this->mediaGalleryProvider = $mediaGalleryProvider;
         $this->imageProvider = $productImageProvider;
         $this->productDetailFactory = $productDetailFactory;
@@ -76,6 +94,10 @@ class ProductRepository implements ProductRepositoryInterface
 
         $mediaGalleryInfo = $this->mediaGalleryProvider->getMediaGallerySizes($productObject);
 
+        $priceObject = $this->productPriceProvider->getPriceData($productObject);
+
+        $tierPrices = $productObject->getPriceModel()->getTierPrices($productObject);
+
         return $this->productDetailFactory->create(
             [
                 ProductDetailInterface::ID_FIELD_KEY => (int)$productObject->getId(),
@@ -85,7 +107,10 @@ class ProductRepository implements ProductRepositoryInterface
                 ProductDetailInterface::TYPE_ID_FIELD_KEY => (string)$productObject->getTypeId(),
                 ProductDetailInterface::IMAGE_FIELD_KEY => $mainImage,
                 ProductDetailInterface::IMAGE_RESIZED_FIELD_KEY => $imageResized,
-                ProductDetailInterface::MEDIA_GALLERY_FIELD_KEY => $mediaGalleryInfo
+                ProductDetailInterface::URL_PATH_FIELD_KEY => $this->urlPathProvider->getProductUrlPath($productObject),
+                ProductDetailInterface::MEDIA_GALLERY_FIELD_KEY => $mediaGalleryInfo,
+                ProductDetailInterface::TIER_PRICES_FIELD_KEY => $tierPrices,
+                ProductDetailInterface::PRICE_FIELD_KEY => $priceObject
             ]
         );
     }
