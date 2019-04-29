@@ -133,7 +133,6 @@ class ProductDetail implements ProductDetailInterface
         $this->typeId = $type_id;
     }
 
-
     /**
      * Get product sku
      *

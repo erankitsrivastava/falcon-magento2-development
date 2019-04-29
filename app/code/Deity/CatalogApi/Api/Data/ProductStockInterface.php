@@ -16,14 +16,12 @@ interface ProductStockInterface extends ExtensibleDataInterface
     const IS_IN_STOCK_FIELD_KEY = 'is_in_stock';
     const MIN_QTY_FIELD_KEY = 'min_qty';
 
-
     /**
      * Get product qty
      *
      * @return int
      */
     public function getQty(): int;
-
 
     /**
      * Get is in stock flag

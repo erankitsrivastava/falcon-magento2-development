@@ -44,5 +44,4 @@ class ProductApiTest extends WebapiAbstract
         /** @var array $resposeData */
         $this->assertEquals(1, $resposeData[ProductDetailInterface::ID_FIELD_KEY], 'Product id should match');
     }
-
 }

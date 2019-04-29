@@ -59,7 +59,6 @@ class ProductStock implements ProductStockInterface
         $this->extensionAttributesFactory = $extensionAttributesFactory;
     }
 
-
     /**
      * Get product qty
      *
