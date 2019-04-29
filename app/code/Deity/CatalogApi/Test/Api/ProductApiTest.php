@@ -39,6 +39,8 @@ class ProductApiTest extends WebapiAbstract
         } catch (\Exception $e) {
             $this->fail("Product data response expected");
         }
+
+        $this->assertEquals(1, $resposeData['id'], 'Product id should match');
     }
 
 }
