@@ -78,6 +78,16 @@ class ProductDetail implements ProductDetailInterface
     private $tierPrices;
 
     /**
+     * @var \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]
+     */
+    private $options;
+
+    /**
+     * @var \Magento\Catalog\Api\Data\ProductLinkInterface[]
+     */
+    private $productLinks;
+
+    /**
      * @var ProductDetailExtensionInterface
      */
     private $extensionAttributes;
@@ -102,6 +112,8 @@ class ProductDetail implements ProductDetailInterface
      * @param ProductStockInterface $stock
      * @param ExtensionAttributesFactory $extensionAttributesFactory
      * @param array $tier_prices
+     * @param array $options
+     * @param array $productLinks
      */
     public function __construct(
         int $id,
@@ -116,8 +128,12 @@ class ProductDetail implements ProductDetailInterface
         ProductPriceInterface $price,
         ProductStockInterface $stock,
         ExtensionAttributesFactory $extensionAttributesFactory,
-        array $tier_prices
+        array $tier_prices,
+        array $options = [],
+        array $productLinks = []
     ) {
+        $this->options = $options;
+        $this->productLinks = $productLinks;
         $this->stockObject = $stock;
         $this->tierPrices = $tier_prices;
         $this->priceObject = $price;
@@ -277,5 +293,25 @@ class ProductDetail implements ProductDetailInterface
     public function getStock(): ProductStockInterface
     {
         return $this->stockObject;
+    }
+
+    /**
+     * Get product links
+     *
+     * @return \Magento\Catalog\Api\Data\ProductLinkInterface[]
+     */
+    public function getProductLinks(): array
+    {
+        return $this->productLinks;
+    }
+
+    /**
+     * Get product options
+     *
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]|null
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

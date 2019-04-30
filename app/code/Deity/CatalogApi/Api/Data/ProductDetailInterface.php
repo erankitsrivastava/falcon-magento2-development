@@ -24,6 +24,8 @@ interface ProductDetailInterface extends ExtensibleDataInterface
     const PRICE_FIELD_KEY = 'price';
     const TIER_PRICES_FIELD_KEY = 'tier_prices';
     const STOCK_FIELD_KEY = 'stock';
+    const PRODUCT_LINKS_FIELD_KEY = 'product_links';
+    const OPTIONS_FIELD_KEY = 'options';
 
     /**
      * Get product id
@@ -108,6 +110,20 @@ interface ProductDetailInterface extends ExtensibleDataInterface
      * @return \Deity\CatalogApi\Api\Data\ProductStockInterface
      */
     public function getStock(): ProductStockInterface;
+
+    /**
+     * Get product links
+     *
+     * @return \Magento\Catalog\Api\Data\ProductLinkInterface[]
+     */
+    public function getProductLinks(): array;
+
+    /**
+     * Get product options
+     *
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]|null
+     */
+    public function getOptions(): array;
 
     /**
      * Get extension attributes
