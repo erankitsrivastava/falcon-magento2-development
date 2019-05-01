@@ -113,7 +113,7 @@ class ProductDetail implements ProductDetailInterface
      * @param ExtensionAttributesFactory $extensionAttributesFactory
      * @param array $tier_prices
      * @param array $options
-     * @param array $productLinks
+     * @param array $product_links
      */
     public function __construct(
         int $id,
@@ -130,10 +130,10 @@ class ProductDetail implements ProductDetailInterface
         ExtensionAttributesFactory $extensionAttributesFactory,
         array $tier_prices,
         array $options = [],
-        array $productLinks = []
+        array $product_links = []
     ) {
         $this->options = $options;
-        $this->productLinks = $productLinks;
+        $this->productLinks = $product_links;
         $this->stockObject = $stock;
         $this->tierPrices = $tier_prices;
         $this->priceObject = $price;

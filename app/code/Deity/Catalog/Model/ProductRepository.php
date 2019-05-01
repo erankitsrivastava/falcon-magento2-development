@@ -107,6 +107,8 @@ class ProductRepository implements ProductRepositoryInterface
 
         $tierPrices = $productObject->getPriceModel()->getTierPrices($productObject);
 
+        $productLinks = $productObject->getProductLinks();
+
         return $this->productDetailFactory->create(
             [
                 ProductDetailInterface::ID_FIELD_KEY => (int)$productObject->getId(),
@@ -120,7 +122,8 @@ class ProductRepository implements ProductRepositoryInterface
                 ProductDetailInterface::MEDIA_GALLERY_FIELD_KEY => $mediaGalleryInfo,
                 ProductDetailInterface::TIER_PRICES_FIELD_KEY => $tierPrices,
                 ProductDetailInterface::PRICE_FIELD_KEY => $priceObject,
-                ProductDetailInterface::STOCK_FIELD_KEY => $this->productStockProvider->getStockData($productObject)
+                ProductDetailInterface::STOCK_FIELD_KEY => $this->productStockProvider->getStockData($productObject),
+                ProductDetailInterface::PRODUCT_LINKS_FIELD_KEY => $productLinks
             ]
         );
     }
