@@ -1,0 +1,22 @@
+{
+    "name": "deity/falcon-magento-configurable-product",
+    "description": "Deity Magento Configurable Product implementation",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "magento/framework": "*",
+        "magento/module-configurable-product" : "*",
+        "deity/falcon-magento-catalog-api" : "*"
+    },
+    "license": [
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Deity\\ConfigurableProduct\\": ""
+        }
+    }
+}
