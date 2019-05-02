@@ -37,7 +37,7 @@ class ProductMapperChain implements ProductMapperInterface
 
         $this->mappers = $mappers;
     }
-    
+
     /**
      * Perform mapping of magento product to falcon product
      *

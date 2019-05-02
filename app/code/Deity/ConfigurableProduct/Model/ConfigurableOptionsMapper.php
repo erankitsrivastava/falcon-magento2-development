@@ -8,6 +8,7 @@ use Deity\CatalogApi\Model\ProductMapperInterface;
 use Magento\Catalog\Api\Data\ProductExtension;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\CatalogInventory\Api\Data\StockStatusInterface;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 /**
@@ -32,12 +33,11 @@ class ConfigurableOptionsMapper implements ProductMapperInterface
         $this->stockRegistry = $stockRegistry;
     }
 
-
     /**
      * Perform mapping of magento product to falcon product
      *
      * @param ProductInterface $product
-     * @param ProductDetailInterface $falconProductStockRegistryInterface
+     * @param ProductDetailInterface $falconProduct
      */
     public function map(ProductInterface $product, ProductDetailInterface $falconProduct): void
     {
@@ -51,7 +51,6 @@ class ConfigurableOptionsMapper implements ProductMapperInterface
 
         /** @var \Magento\ConfigurableProduct\Api\Data\OptionInterface[] $configurableOptions */
         $configurableOptions = $extensionAttributes->getConfigurableProductOptions();
-
 
         /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable $typeInstance */
         $typeInstance = $product->getTypeInstance();
@@ -67,7 +66,10 @@ class ConfigurableOptionsMapper implements ProductMapperInterface
 
         $listOfStocks = [];
         foreach ($childProducts as $childProduct) {
-            if ($this->stockRegistry->getProductStockStatus($childProduct->getId()) == 1) {
+            if (
+                $this->stockRegistry->getProductStockStatus($childProduct->getId())
+                    == StockStatusInterface::STATUS_IN_STOCK
+            ) {
                 $listOfStocks[] = $childProduct->getSku();
             }
         }
@@ -80,14 +82,13 @@ class ConfigurableOptionsMapper implements ProductMapperInterface
 
                 $matchSkus = array_keys(array_column($attributeData, 'value_index', 'sku'), $valueIndex);
                 $inStockList = array_intersect($matchSkus, $listOfStocks);
-                $optionExtensionAttributes->setInStock( $inStockList);
-                $optionExtensionAttributes->setLabel(array_search($valueIndex, array_column($attributeData, 'value_index', 'option_title')));
+                $optionExtensionAttributes->setInStock($inStockList);
+                $optionExtensionAttributes->setLabel(
+                    array_search($valueIndex, array_column($attributeData, 'value_index', 'option_title'))
+                );
                 $value->setExtensionAttributes($optionExtensionAttributes);
             }
-
         }
-
-
 
         $falconExtensionAttributes->setConfigurableProductOptions($configurableOptions);
         $falconExtensionAttributes->setConfigurableProductLinks($extensionAttributes->getConfigurableProductLinks());
