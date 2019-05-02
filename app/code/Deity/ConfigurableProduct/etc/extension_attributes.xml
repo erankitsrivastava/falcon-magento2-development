@@ -4,4 +4,8 @@
         <attribute code="configurable_product_options" type="Magento\ConfigurableProduct\Api\Data\OptionInterface[]" />
         <attribute code="configurable_product_links" type="int[]" />
     </extension_attributes>
+    <extension_attributes for="Magento\ConfigurableProduct\Api\Data\OptionValueInterface">
+        <attribute code="in_stock" type="string[]" />
+        <attribute code="label" type="string" />
+    </extension_attributes>
 </config>
