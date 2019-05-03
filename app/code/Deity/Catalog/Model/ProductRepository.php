@@ -9,6 +9,7 @@ use Deity\CatalogApi\Api\MediaGalleryProviderInterface;
 use Deity\CatalogApi\Api\ProductImageProviderInterface;
 use Deity\CatalogApi\Api\ProductPriceProviderInterface;
 use Deity\CatalogApi\Api\ProductRepositoryInterface;
+use Deity\CatalogApi\Model\ProductMapperInterface;
 use Deity\CatalogApi\Model\ProductStockProviderInterface;
 use Deity\CatalogApi\Model\ProductUrlPathProviderInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface as MagentoProductRepositoryInterface;
@@ -59,6 +60,11 @@ class ProductRepository implements ProductRepositoryInterface
     private $productStockProvider;
 
     /**
+     * @var ProductMapperInterface
+     */
+    private $productMapper;
+
+    /**
      * ProductRepository constructor.
      * @param ProductDetailInterfaceFactory $productDetailFactory
      * @param MediaGalleryProviderInterface $mediaGalleryProvider
@@ -67,6 +73,7 @@ class ProductRepository implements ProductRepositoryInterface
      * @param ProductPriceProviderInterface $priceProvider
      * @param ProductStockProviderInterface $productStockProvider
      * @param MagentoProductRepositoryInterface $magentoRepository
+     * @param ProductMapperInterface $mapper
      */
     public function __construct(
         ProductDetailInterfaceFactory $productDetailFactory,
@@ -75,8 +82,10 @@ class ProductRepository implements ProductRepositoryInterface
         ProductUrlPathProviderInterface $urlPathProvider,
         ProductPriceProviderInterface $priceProvider,
         ProductStockProviderInterface $productStockProvider,
-        MagentoProductRepositoryInterface $magentoRepository
+        MagentoProductRepositoryInterface $magentoRepository,
+        ProductMapperInterface $mapper
     ) {
+        $this->productMapper = $mapper;
         $this->productStockProvider = $productStockProvider;
         $this->productPriceProvider = $priceProvider;
         $this->urlPathProvider = $urlPathProvider;
@@ -107,7 +116,9 @@ class ProductRepository implements ProductRepositoryInterface
 
         $tierPrices = $productObject->getPriceModel()->getTierPrices($productObject);
 
-        return $this->productDetailFactory->create(
+        $productLinks = $productObject->getProductLinks();
+
+        $productDetail =  $this->productDetailFactory->create(
             [
                 ProductDetailInterface::ID_FIELD_KEY => (int)$productObject->getId(),
                 ProductDetailInterface::SKU_FIELD_KEY => (string)$productObject->getSku(),
@@ -120,8 +131,13 @@ class ProductRepository implements ProductRepositoryInterface
                 ProductDetailInterface::MEDIA_GALLERY_FIELD_KEY => $mediaGalleryInfo,
                 ProductDetailInterface::TIER_PRICES_FIELD_KEY => $tierPrices,
                 ProductDetailInterface::PRICE_FIELD_KEY => $priceObject,
-                ProductDetailInterface::STOCK_FIELD_KEY => $this->productStockProvider->getStockData($productObject)
+                ProductDetailInterface::STOCK_FIELD_KEY => $this->productStockProvider->getStockData($productObject),
+                ProductDetailInterface::PRODUCT_LINKS_FIELD_KEY => $productLinks
             ]
         );
+
+        $this->productMapper->map($productObject, $productDetail);
+
+        return $productDetail;
     }
 }
