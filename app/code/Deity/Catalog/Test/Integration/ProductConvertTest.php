@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ProductConvertTest
+ *
  * @package Deity\Catalog\Test\Integration
  */
 class ProductConvertTest extends TestCase
