@@ -5,7 +5,7 @@ namespace Deity\ConfigurableProduct\Test\Integration;
 
 use Deity\CatalogApi\Api\Data\ProductDetailExtensionInterface;
 use Deity\CatalogApi\Api\Data\ProductDetailInterface;
-use Magento\Catalog\Api\ProductRepositoryInterface;
+use Deity\CatalogApi\Api\ProductRepositoryInterface;
 use Magento\Framework\App\State;
 use PHPUnit\Framework\TestCase;
 
