@@ -46,7 +46,7 @@ class ConfigurableOptionsMapperTest extends TestCase
     private function getProductObjectFromAPI(string $sku)
     {
         /** @var \Deity\CatalogApi\Api\ProductRepositoryInterface $productApiInstance */
-        $productApiInstance = $this->objectManager->create('Deity\CatalogApi\Api\ProductRepositoryInterface');
+        $productApiInstance = $this->objectManager->create(ProductRepositoryInterface::class);
         return $productApiInstance->get($sku);
     }
 
@@ -72,7 +72,7 @@ class ConfigurableOptionsMapperTest extends TestCase
                 $extensionAttributes,
                 'getConfigurableProductOptions'
             ),
-          "Product API should return configurable product options"
+            "Product API should return configurable product options"
         );
 
         $this->assertTrue(

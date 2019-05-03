@@ -66,8 +66,7 @@ class ConfigurableOptionsMapper implements ProductMapperInterface
 
         $listOfStocks = [];
         foreach ($childProducts as $childProduct) {
-            if (
-                $this->stockRegistry->getProductStockStatus($childProduct->getId())
+            if ($this->stockRegistry->getProductStockStatus($childProduct->getId())
                     == StockStatusInterface::STATUS_IN_STOCK
             ) {
                 $listOfStocks[] = $childProduct->getSku();
